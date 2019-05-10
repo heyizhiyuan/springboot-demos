@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="" />
+        <datasource-mapping>
+          <factory-entry name="Entities" value="da1d4b9c-e031-4340-a4d9-3aa689490a6a" />
+        </datasource-mapping>
+      </configuration>
+    </facet>
+  </component>
+</module>
