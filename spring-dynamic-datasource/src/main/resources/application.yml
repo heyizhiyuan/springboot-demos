@@ -1,0 +1,25 @@
+server:
+  port: 10000
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/bootdo
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123
+
+custom:
+  datasource:
+    ds1:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://localhost:3306/bootdo
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: 123
+    ds2:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://localhost:3306/bootdo1
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: 123
