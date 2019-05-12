@@ -7,9 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-dynaimc-datasource" />
+        <module name="spring-dynamic-datasource" />
+        <module name="spring-properties" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="spring-dynaimc-datasource" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
