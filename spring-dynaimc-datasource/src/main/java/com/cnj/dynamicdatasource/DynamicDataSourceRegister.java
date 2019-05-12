@@ -22,15 +22,15 @@ import java.util.Map;
 @Slf4j
 public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
+    public final static String BASE_DATASOURCE_PREFIX = "spring.datasource";
+
+    public final static String MULTI_DATASOURCE_PREFIX = "custom.datasource";
+
     //主数据源
     private DataSource baseDataSource;
 
     //从数据源列表
     private Map<String, DataSource> multiDataSourceMap;
-
-    public final static String BASE_DATASOURCE_PREFIX = "spring.datasource";
-
-    public final static String MULTI_DATASOURCE_PREFIX = "custom.datasource";
 
     public enum DataSourceProperty{
         url("url"),
@@ -56,12 +56,11 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
      * @return
      */
     private Map<String, DataSource> loadMultiSource(Environment environment) {
-        //1.获取所有数据源名称
-        Map<String,String> sourceMap = this.getSourceMap(MULTI_DATASOURCE_PREFIX,environment);
         Map<String,DataSource> multiDataSource = Maps.newHashMap();
-        sourceMap.keySet().stream().forEach((dataSourceId)->{
-            multiDataSource.put(dataSourceId,buildDataSource(this.getSourceMap(MULTI_DATASOURCE_PREFIX.concat(".").concat(dataSourceId),environment)));
-        });
+        this.getSourceMap(MULTI_DATASOURCE_PREFIX,environment)
+                .keySet()
+                .stream()
+                .forEach((dataSourceId)-> multiDataSource.put(dataSourceId,buildDataSource(this.getSourceMap(MULTI_DATASOURCE_PREFIX.concat(".").concat(dataSourceId),environment))));
         return multiDataSource;
     }
 
@@ -74,8 +73,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
      * @param environment
      */
     private DataSource loadBaseDataSource(Environment environment) {
-        Map<String,String> baseConfigMap = Binder.get(environment).bind(BASE_DATASOURCE_PREFIX,Map.class).get();
-        return buildDataSource(baseConfigMap);
+        return buildDataSource(this.getSourceMap(BASE_DATASOURCE_PREFIX,environment));
     }
 
     /**
@@ -112,12 +110,12 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         Map<Object, Object> targetDataSources = new HashMap();
-        targetDataSources.put("dataSource", baseDataSource);
+        targetDataSources.put("defaultTargetDataSource", baseDataSource);
         targetDataSources.putAll(multiDataSourceMap);
         targetDataSources
                 .keySet()
                 .forEach((dataSourceId)->DynamicDataSourceContextHolder.addDataSourceId((String) dataSourceId));
-        DynamicDataSourceContextHolder.setDataSourceKey("dataSource");
+        DynamicDataSourceContextHolder.setDataSourceKey("defaultTargetDataSource");
         GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
         beanDefinition.setBeanClass(DynamicDataSource.class);
         beanDefinition.setSynthetic(true);

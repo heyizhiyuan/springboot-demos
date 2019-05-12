@@ -10,15 +10,15 @@ import java.util.*;
 @Slf4j
 public class DynamicDataSourceContextHolder implements AutoCloseable {
 
-    private static final ThreadLocal<String> dataSourceLocal = new ThreadLocal<>();
+    private final static ThreadLocal<String> DATASOURCE_LOCAL = new ThreadLocal<>();
 
-    private final static Set<String> dataSourceIdSet = new HashSet<>();
+    private final static Set<String> DATASOURCE_ID_SET = new HashSet<>();
 
     public final static String DATA_SOURCE_KEY = "uid";
 
     public static String getDataSourceKey() throws Exception{
         String key;
-        if (Strings.isNullOrEmpty(key = dataSourceLocal.get())){
+        if (Strings.isNullOrEmpty(key = DATASOURCE_LOCAL.get())){
             throw new RuntimeException("获取数据源失败");
         }
         return key;
@@ -31,8 +31,8 @@ public class DynamicDataSourceContextHolder implements AutoCloseable {
         if (!isExists(key)){
             throw new RuntimeException(String.format("数据源:%s,不存在", key));
         }
-        log.info("设置数据源:{} --> {}",key,dataSourceLocal.get(),key);
-        dataSourceLocal.set(key);
+        log.info("设置数据源:{} --> {}",key,DATASOURCE_LOCAL.get(),key);
+        DATASOURCE_LOCAL.set(key);
     }
 
     /**
@@ -47,7 +47,7 @@ public class DynamicDataSourceContextHolder implements AutoCloseable {
             log.warn("数据库id不能重复添加");
             return;
         }
-        dataSourceIdSet.add(dataSourceId);
+        DATASOURCE_ID_SET.add(dataSourceId);
     }
 
     /**
@@ -55,7 +55,7 @@ public class DynamicDataSourceContextHolder implements AutoCloseable {
      * @return
      */
     public static Set<String> getDataSourceIdSet(){
-        return dataSourceIdSet;
+        return DATASOURCE_ID_SET;
     }
 
     /**
@@ -69,6 +69,6 @@ public class DynamicDataSourceContextHolder implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        dataSourceLocal.remove();
+        DATASOURCE_LOCAL.remove();
     }
 }
