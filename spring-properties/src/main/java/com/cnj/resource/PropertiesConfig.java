@@ -22,23 +22,23 @@ import java.util.Objects;
 @Slf4j
 public class PropertiesConfig {
 
-//    /**
-//     *
-//     * @param resource
-//     * @return
-//     */
-//    @Bean
-//    public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurer(@Value("config")ClassPathResource resource){
-//        PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();;
-//        List<Resource> resources = Lists.newArrayList();
-//        try {
-//            loadFileList(resource.getFile(),resources);
-//            propertyPlaceholderConfigurer.setLocations(resources.stream().toArray((size)->new FileSystemResource[size]));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return propertyPlaceholderConfigurer;
-//    }
+    /**
+     *
+     * @param resource
+     * @return
+     */
+    @Bean
+    public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurer(@Value("config")ClassPathResource resource){
+        PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();;
+        List<Resource> resources = Lists.newArrayList();
+        try {
+            loadFileList(resource.getFile(),resources);
+            propertyPlaceholderConfigurer.setLocations(resources.stream().toArray((size)->new FileSystemResource[size]));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return propertyPlaceholderConfigurer;
+    }
 
     /**
      *
