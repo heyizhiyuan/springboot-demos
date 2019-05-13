@@ -31,7 +31,7 @@ public class Propertiestest {
     @Test
     public void test1(){
 
-        log.info("resources:{}",propertyFilePropertySource.getAppliedPropertySources().get("localProperties").getProperty("a"));
+        log.info("resources##:{}",propertyFilePropertySource.getAppliedPropertySources());
     }
 
     @Test

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +19,7 @@ import java.util.Objects;
  */
 @Configuration
 @Slf4j
-public class PropertiesConfig {
+public class PropertiesLoadConfig {
 
     /**
      *
@@ -30,10 +29,10 @@ public class PropertiesConfig {
     @Bean
     public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurer(@Value("config")ClassPathResource resource){
         PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();;
-        List<Resource> resources = Lists.newArrayList();
         try {
-            loadFileList(resource.getFile(),resources);
-            propertyPlaceholderConfigurer.setLocations(resources.stream().toArray((size)->new FileSystemResource[size]));
+            List<String> paths = Lists.newArrayList();
+            loadFileList(resource.getFile(),paths);
+            propertyPlaceholderConfigurer.setLocations(paths.stream().map(FileSystemResource::new).toArray(FileSystemResource[]::new));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,20 +43,19 @@ public class PropertiesConfig {
      *
      *
      * @param root
-     * @param resources
+     * @param paths
      */
-    private void loadFileList(File root,List<Resource> resources){
+    private void loadFileList(File root,List<String> paths){
         if (Objects.isNull(root) || !root.exists()){
             return;
         }
         root.listFiles((file)->{
             if (file.isDirectory()){
-                this.loadFileList(file,resources);
+                this.loadFileList(file,paths);
                 return true;
             }
             if (file.getName().endsWith(".properties")){
-                resources.add(new FileSystemResource(file.getAbsolutePath()));
-                return false;
+                paths.add(file.getAbsolutePath());
             }
             return false;
         });
