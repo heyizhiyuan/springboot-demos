@@ -1,0 +1,5 @@
+server:
+  port: 10000
+spring:
+  messages:
+    basename: i18n/messages

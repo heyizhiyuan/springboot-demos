@@ -2,7 +2,10 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-commons" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-commons/spring-protocol" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-dynamic-datasource" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-validate" charset="UTF-8" />
   </component>
 </project>

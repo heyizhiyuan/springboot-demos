@@ -10,6 +10,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="spring-dynamic-datasource" />
         <module name="spring-properties" />
+        <module name="spring-protocol" />
+        <module name="spring-validate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
